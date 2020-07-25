@@ -1,6 +1,6 @@
 # flutter_web_responsive_layout
 
-A responsive template for flutter web app.
+A responsive layout template for your flutter website
 
 ## Getting Started
 
