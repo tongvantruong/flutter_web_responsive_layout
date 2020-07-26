@@ -3,11 +3,12 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_web_responsive_layout/routing/route_name.dart';
 import 'package:flutter_web_responsive_layout/views/about/about_view.dart';
 import 'package:flutter_web_responsive_layout/views/home/home_view.dart';
+import 'package:flutter_web_responsive_layout/views/layout_template/layout_template.dart';
 import 'package:flutter_web_responsive_layout/views/login/login_view.dart';
 import 'package:flutter_web_responsive_layout/views/pricing/pricing_view.dart';
 import 'package:flutter_web_responsive_layout/views/register/register_view.dart';
 
-Route<dynamic> generateRoute(RouteSettings settings) {
+Route<dynamic> generateRoute(RouteSettings settings, LayoutTemplateState parentState) {
   switch (settings.name) {
     case HomeRoute:
       return _getPageRoute(HomeView());
@@ -16,7 +17,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case AboutRoute:
       return _getPageRoute(AboutView());
     case LoginRoute:
-      return _getPageRoute(LoginView());
+      return _getPageRoute(LoginView(parentState));
     case RegisterRoute:
       return _getPageRoute(RegisterView());  
     default:

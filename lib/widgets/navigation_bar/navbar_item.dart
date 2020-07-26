@@ -7,12 +7,16 @@ import '../../locator.dart';
 class NavBarItem extends StatelessWidget {
   final String title;
   final String navigationPath;
-  const NavBarItem(this.title, this.navigationPath);
+  final bool isDrawerOpen;
+  const NavBarItem(this.title, this.navigationPath, this.isDrawerOpen);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (isDrawerOpen) {
+          Navigator.pop(context);
+        }
         locator<NavigationService>().navigateTo(navigationPath);
       },
       child: MouseRegion(
@@ -23,6 +27,5 @@ class NavBarItem extends StatelessWidget {
         ),
       )
     );
-    
   }
 }

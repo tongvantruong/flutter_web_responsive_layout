@@ -15,7 +15,7 @@ class CallToActionTabletDesktop extends StatelessWidget {
       color: primaryColor,
       onPressed: _launchURL,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Text(
           title,
           style: TextStyle(
