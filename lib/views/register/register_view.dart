@@ -4,6 +4,8 @@ import 'package:flutter_web_responsive_layout/constants/app_colors.dart';
 import 'package:flutter_web_responsive_layout/routing/route_name.dart';
 import 'package:flutter_web_responsive_layout/services/navigation_service.dart';
 import 'package:flutter_web_responsive_layout/views/login/login_view.dart';
+import 'package:flutter_web_responsive_layout/widgets/buttons/button_type.dart';
+import 'package:flutter_web_responsive_layout/widgets/buttons/primary_button.dart';
 
 import '../../locator.dart';
 
@@ -43,53 +45,40 @@ class _LoginViewStatefulWidgetState extends State<RegisterView> {
                         return null;
                       },
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your password',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your name',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your name';
-                        }
-                        return null;
-                      },
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20.0),
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your password',
+                        ),
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null;
+                        },
+                      )
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child: MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your name',
                         ),
-                        color: primaryColor,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            // Process data.
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your name';
                           }
+                          return null;
                         },
-                        child: Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Text("Register", 
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                            ),
-                          ),
-
-                        )
                       )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: PrimaryButton("Register", ButtonType.Small, () {
+                        if (_formKey.currentState.validate()) {
+                        }
+                      })
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
@@ -122,7 +111,6 @@ class _LoginViewStatefulWidgetState extends State<RegisterView> {
             )
         )
       )
-    );
-    
+    ); 
   }
 }

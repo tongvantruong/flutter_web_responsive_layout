@@ -12,11 +12,12 @@ class LayoutTemplate extends StatefulWidget {
   const LayoutTemplate({Key key}) : super(key: key);
 
   @override
-  _LayoutTemplateState createState() => new _LayoutTemplateState();
+  LayoutTemplateState createState() => LayoutTemplateState();
 }
 
-class _LayoutTemplateState extends State<LayoutTemplate> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+class LayoutTemplateState extends State<LayoutTemplate> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  String currentEmail = "";
 
   @override
   Widget build(BuildContext context) {
@@ -24,16 +25,16 @@ class _LayoutTemplateState extends State<LayoutTemplate> {
       builder: (context, sizingInformation) =>
       Scaffold(
         key: _scaffoldKey,
-        drawer: sizingInformation.deviceScreenType == DeviceScreenType.mobile ? NavigationDrawer() : null,
+        drawer: sizingInformation.deviceScreenType == DeviceScreenType.mobile ? NavigationDrawer(this) : null,
         backgroundColor: Colors.white,
         body: CenteredView(
           child: Column(
             children: <Widget>[
-              NavigationBar(_scaffoldKey),
+              NavigationBar(this, _scaffoldKey),
               Expanded(
                 child: Navigator(
                   key: locator<NavigationService>().navigatorKey,
-                  onGenerateRoute: generateRoute,
+                  onGenerateRoute: _generateRoute,
                   initialRoute: HomeRoute,
                 )
               )
@@ -42,5 +43,9 @@ class _LayoutTemplateState extends State<LayoutTemplate> {
         ),
       )
     );
+  }
+
+  Route<dynamic> _generateRoute(RouteSettings settings) {
+    return generateRoute(settings, this);
   }
 }

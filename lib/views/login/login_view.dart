@@ -2,21 +2,29 @@ import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_web_responsive_layout/constants/app_colors.dart';
 import 'package:flutter_web_responsive_layout/routing/route_name.dart';
 import 'package:flutter_web_responsive_layout/services/navigation_service.dart';
+import 'package:flutter_web_responsive_layout/views/layout_template/layout_template.dart';
+import 'package:flutter_web_responsive_layout/widgets/buttons/button_type.dart';
+import 'package:flutter_web_responsive_layout/widgets/buttons/primary_button.dart';
 
 import '../../locator.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({Key key}) : super(key: key);
+  final LayoutTemplateState parentState;
+  const LoginView(this.parentState);
 
   @override
-  _LoginViewStatefulWidgetState createState() => _LoginViewStatefulWidgetState();
+  _LoginViewStatefulWidgetState createState() => _LoginViewStatefulWidgetState(parentState);
 }
 
 class _LoginViewStatefulWidgetState extends State<LoginView> {
+  final LayoutTemplateState parentState;
+  _LoginViewStatefulWidgetState(this.parentState);
+
   final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +42,7 @@ class _LoginViewStatefulWidgetState extends State<LoginView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     TextFormField(
+                      controller: _emailController,
                       decoration: const InputDecoration(
                         hintText: 'Enter your email',
                       ),
@@ -44,42 +53,29 @@ class _LoginViewStatefulWidgetState extends State<LoginView> {
                         return null;
                       },
                     ),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                        hintText: 'Enter your password',
-                      ),
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                    ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
-                      child: MaterialButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
+                      child: TextFormField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Enter your password',
                         ),
-                        color: primaryColor,
-                        onPressed: () {
-                          if (_formKey.currentState.validate()) {
-                            // Process data.
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Please enter your password';
                           }
+                          return null;
                         },
-                        child: Container(
-                          height: 50,
-                          alignment: Alignment.center,
-                          child: Text("Login", 
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w800,
-                              color: Colors.white,
-                            ),
-                          ),
-
-                        )
                       )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 30.0),
+                      child: PrimaryButton("Login", ButtonType.Small, () {
+                        if (_formKey.currentState.validate()) {
+                          _login();
+                        }
+                      })
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 20.0),
@@ -112,7 +108,13 @@ class _LoginViewStatefulWidgetState extends State<LoginView> {
             )
         )
       )
-    );
-    
+    ); 
+  }
+
+  Future<void> _login() async {
+    parentState.setState(() {
+      parentState.currentEmail = _emailController.text;
+      locator<NavigationService>().navigateTo(HomeRoute);
+    });
   }
 }
